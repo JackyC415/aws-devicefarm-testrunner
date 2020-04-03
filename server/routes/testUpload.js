@@ -29,9 +29,8 @@ async function getAppUpload(uploadArn, userId) {
     return await deviceFarm.getUpload({ arn: uploadArn }).promise().then(
         function (data) {
             var res = data.upload;
-            if (res.status !== "SUCCEEDED") {
-                console.log("Awaiting upload status: 'SUCCEEDED'");
-            } else {
+            if (res.status === 'SUCCEEDED') {
+                console.log("Upload status: " + res.status);
                 if (res.type == 'ANDROID_APP' || res.type == 'IOS_APP') {
                     const appUpload = new Upload({
                         appName: res.name,
@@ -44,12 +43,11 @@ async function getAppUpload(uploadArn, userId) {
                     });
                     try {
                         appUpload.save();
-                        console.log("App upload saved to MongoDB status: 'SUCCEEDED'");
+                        console.log("Upload saved to MongoDB status: " + res.status);
                     } catch (err) {
-                        console.log("App upload saved to MongoDB status: 'FAILED");
+                        console.log("Upload saved to MongoDB status: 'FAILED");
                     }
                 } else {
-                    console.log('SHOULD NOT BE IN HERE...');
                     //update current upload of test package
                     Upload.findOne({ appName: res.appName }, (err, test) => {
                         if (err) console.log(err, err.stack); // an error occurred
@@ -63,7 +61,7 @@ async function getAppUpload(uploadArn, userId) {
                             testres.created = res.created;
                             test.save((err) => {
                                 if (err) console.log(err, err.stack); // an error occurred
-                                else console.log("Test package upload saved to MongoDB status: 'SUCCEEDED'");
+                                else console.log("Upload saved to MongoDB status: " + res.status);
                             })
                         }
                     });
@@ -71,7 +69,7 @@ async function getAppUpload(uploadArn, userId) {
             }
             return res.status;
         }, function (error) {
-            console.error("App upload status: 'ERROR'", error);
+            console.error("Upload status: ERROR", error);
         }
     );
 }
@@ -101,10 +99,12 @@ router.post('/aws-testrunner/createUpload', upload.single('file'), (req, res) =>
     deviceFarm.createUpload(params, async function (err, data) {
         if (err) console.log(err, err.stack); // an error occurred
         else {
+            console.log(data);
             if (data.upload.status !== "INITIALIZED") {
                 res.status(400).send('Bad Request');
                 return;
             } else {
+                console.log("Create upload status: " + data.upload.status);
                 let options = {
                     method: 'PUT',
                     url: data.upload.url,
@@ -115,7 +115,7 @@ router.post('/aws-testrunner/createUpload', upload.single('file'), (req, res) =>
                 //upload file to S3 with presigned url
                 request(options, function (error, response) {
                     if (!error && response.statusCode == 200) {
-                        console.log("App upload to AWS S3 status: 'SUCCEEDED'");
+                        console.log("Upload status: " + data.upload.status);
                     } else {
                         console.log(error);
                     }
@@ -124,6 +124,7 @@ router.post('/aws-testrunner/createUpload', upload.single('file'), (req, res) =>
                 //get status of app upload and persist data into mongoDB (retry if necessary)
                 let uploadStatus = await getAppUpload(data.upload.arn, userId);
                 while (uploadStatus !== "SUCCEEDED") {
+                    console.log("Upload status: " + uploadStatus);
                     await sleep(5000);
                     uploadStatus = await getAppUpload(data.upload.arn, userId);
                 }
