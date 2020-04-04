@@ -21,11 +21,11 @@ const uploadSchema = new Schema({
         arn: String,
         type: {
             type: String,
-            emum: ["BUILTIN_FUZZ", "BUILTIN_EXPLORER", "APPIUM_JAVA_JUNIT", "APPIUM_JAVA_TESTING",
-                "APPIUM_PYTHON", "APPIUM_NODE", "APPIUM_RUBY", "APPIUM_WEB_JAVA_JUNIT", "APPIUM_JAVA_TESTING",
-                "APPIUM_WEB_PYTHON", "APPIUM_WEB_NODE", "APPIUM_WEB_RUBY", "CALABASH", "INSTRUMENTATION",
-                "UIAUTOMATION", "UIAUTOMATOR", "XCTEST", "XCTEST_UI"],
-            default: 'BUILTIN_FUZZ'
+            emum: ["ANDROID_APP", "IOS_APP", "WEB_APP", "APPIUM_JAVA_JUNIT_TEST_PACKAGE", "APPIUM_JAVA_TESTNG_TEST_PACKAGE",
+                "APPIUM_PYTHON_TEST_PACKAGE", "APPIUM_NODE_TEST_PACKAGE", "APPIUM_RUBY_TEST_PACKAGE", "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE",
+                "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE", "APPIUM_WEB_PYTHON_TEST_PACKAGE", "APPIUM_WEB_NODE_TEST_PACKAGE", "APPIUM_WEB_RUBY_TEST_PACKAGE", 
+                "CALABASH_TEST_PACKAGE", "INSTRUMENTATION_TEST_PACKAGE","UIAUTOMATION_TEST_PACKAGE", "UIAUTOMATOR_TEST_PACKAGE", "XCTEST_TEST_PACKAGE", 
+                "XCTEST_UI_TEST_PACKAGE", "UIAUTOMATOR", "APPIUM_NODE", "APPIUM_WEB_RUBY", "APPIUM_WEB_PYTHON", "CALABASH", "APPIUM_JAVA_JUNIT", "APPIUM_JAVA_TESTNG"]
         },
         status: {
             type: String,
@@ -33,6 +33,10 @@ const uploadSchema = new Schema({
         },
         url: String,
         created: { type: Date, default: Date.now }
+    },
+    deviceArn: {
+        type: String,
+        default: null
     },
     ownerId: String
 });

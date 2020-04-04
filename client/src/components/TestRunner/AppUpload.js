@@ -11,7 +11,6 @@ class AppUpload extends Component {
     handleUploadFile = (event) => {
         const data = new FormData();
         data.append('file', event.target.files[0]);
-        data.append('runName', 'run name');
         console.log(event.target.files[0].name);
         // '/files' is your node.js route that triggers our middleware
         axios.post('/aws-testrunner/createUpload', data).then((response) => {
@@ -32,7 +31,7 @@ class AppUpload extends Component {
                     <h5>Run name: </h5>
                     <Form>
                         <Form.Group controlId="formGridAddress1">
-                            <Form.Control placeholder="1234 Main St" />
+                            <Form.Control placeholder="optional app name (file name will be used if not provided)" />
                         </Form.Group>
                     </Form>
                 </div>
