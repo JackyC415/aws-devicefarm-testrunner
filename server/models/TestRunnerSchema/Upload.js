@@ -6,7 +6,7 @@ const uploadSchema = new Schema({
     appArn: String,
     appType: {
         type: String,
-        emum: ["ANDROID_APP", "IOS_APP"],
+        emum: ["ANDROID_APP", "IOS_APP", "WEB_APP"],
         default: null
     },
     appStatus: {

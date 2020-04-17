@@ -1,7 +1,5 @@
-'use strict';
-
 import React, { Component } from 'react';
-import { Col, Nav, Tab, Row, Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
 class AppUpload extends Component {
@@ -11,12 +9,15 @@ class AppUpload extends Component {
             upload: false,
             testType: ''
         }
+        this.handleUploadFile = this.handleUploadFile.bind(this);
     }
 
     handleChange = (e) => {
         if (e.target.value != 'BUILTIN_FUZZ' && e.target.value != 'BUILTIN_EXPLORER') {
             this.setState({ upload: true, testType: e.target.value });
+            this.props.tabsHandler(false);
         } else {
+            this.props.tabsHandler(true);
             this.setState({ upload: false });
         }
     }
@@ -28,6 +29,7 @@ class AppUpload extends Component {
         // '/files' is your node.js route that triggers our middleware
         axios.post('/aws-testrunner/createUpload', data).then((res) => {
             console.log(res); // do something with the response
+            this.props.tabsHandler(true);
         });
     }
 
@@ -35,9 +37,14 @@ class AppUpload extends Component {
         let enableUpload = null;
         if (this.state.upload) {
             enableUpload =
-                <div>
-                    <input type="file" onChange={this.handleUploadFile.bind(this)} />
-                </div>
+                <Form>
+                    <Form.File
+                        id="custom-file"
+                        label="Choose File"
+                        onChange={this.handleUploadFile}
+                        custom
+                    />
+                </Form>
         } else {
             enableUpload =
                 <div><i>No tests? No problem. We'll fuzz test your app by sending random events to it with no scripts required.</i></div>

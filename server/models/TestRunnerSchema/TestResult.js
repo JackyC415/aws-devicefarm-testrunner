@@ -6,20 +6,20 @@ const testResultSchema = new Schema({
         type: String,
         emum: ['PENDING', 'PENDING_CONCURRENCY', 'PENDING_DEVICE', 'PROCESSING',
             'SCHEDULING', 'PREPARING', 'RUNNING', 'COMPLETED', 'STOPPING'],
-        default: 'none'
+        default: null
     },
     name: String,
     created: Date,
     platform: {
         type: String,
-        emum: ['ANDROID_APP', 'IOS_APP'],
-        default: 'none'
+        emum: ['ANDROID_APP', 'IOS_APP', 'WEB_APP'],
+        default: null
     },
     result: {
         type: String,
         emum: ['PENDING', 'PASSED', 'WARNED', 'FAILED', 'SKIPPED',
             'ERRORED', 'STOPPED'],
-        default: 'none'
+        default: null
     },
     billingMethod: String,
     type: {

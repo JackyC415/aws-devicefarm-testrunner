@@ -30,6 +30,6 @@ app.use(session({
 
 connectMongoDB();
 
-app.use(require('./routes/testUpload'));
+app.use(require('./routes/testRunnerRoutes'));
 
 app.listen(PORT, () => console.log('Server listening on port:', PORT));

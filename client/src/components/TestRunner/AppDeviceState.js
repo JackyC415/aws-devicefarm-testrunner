@@ -1,20 +1,9 @@
-'use strict';
-
 import React, { Component } from 'react';
-import { Col, Nav, Tab, Row, Form, Button, Table, Card } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 class AppDeviceState extends Component {
     constructor(props) {
         super(props);
-    }
-
-    handleUploadFile = (event) => {
-        /*
-        const data = new FormData();
-        data.append('file', event.target.files[0]);
-        axios.post('/aws-testrunner/createUpload', data).then((response) => {
-            console.log(response); // do something with the response
-        });*/
     }
 
     render() {

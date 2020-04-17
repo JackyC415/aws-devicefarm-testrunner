@@ -1,15 +1,17 @@
 import React from 'react';
-import {Route, BrowserRouter as Router} from 'react-router-dom';
-import VerticalTabs from "./components/TestRunner/VerticalTabs";
+import CreateRun from "./components/TestRunner/CreateRun";
+import GetRun from './components/TestRunner/GetRun';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
   return (
     <Router>
-    <div className="App">
-      <div>
-        <Route path="/testrunner" component={VerticalTabs} />
+      <div className="App">
+        <div>
+          <Route path="/createrun" component={CreateRun} />
+          <Route path="/run/:id/:id2" component={GetRun} />
+        </div>
       </div>
-    </div>
     </Router>
   );
 }

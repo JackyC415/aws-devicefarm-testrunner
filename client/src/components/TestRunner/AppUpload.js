@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Nav, Tab, Row, Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import axios from 'axios';
 
 class AppUpload extends Component {
@@ -15,6 +15,9 @@ class AppUpload extends Component {
         // '/files' is your node.js route that triggers our middleware
         axios.post('/aws-testrunner/createUpload', data).then((response) => {
             console.log(response); // do something with the response
+            if (response.status == 200) {
+                this.props.tabsHandler(true);
+            }
         });
     }
 
@@ -24,14 +27,19 @@ class AppUpload extends Component {
                 <h2>Choose your application</h2>
                 <br></br>
                 <div>
-                    <div>
-                        <input type="file" onChange={this.handleUploadFile} />
-                    </div>
+                    <Form>
+                        <Form.File
+                            id="custom-file"
+                            label="Choose File"
+                            onChange={this.handleUploadFile}
+                            custom
+                        />
+                    </Form>
                     <br></br>
                     <h5>Run name: </h5>
                     <Form>
                         <Form.Group controlId="formGridAddress1">
-                            <Form.Control placeholder="optional app name (file name will be used if not provided)" />
+                            <Form.Control placeholder="default file name will be used if empty" />
                         </Form.Group>
                     </Form>
                 </div>
