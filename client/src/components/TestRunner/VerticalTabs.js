@@ -27,7 +27,6 @@ class VerticalTabs extends Component {
   }
 
   handleModal() {
-    console.log('YO');
     this.props.closeModal();
   }
 

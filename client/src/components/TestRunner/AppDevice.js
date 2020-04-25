@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Table, Card } from 'react-bootstrap';
+import { Form, Table, Card} from 'react-bootstrap';
 
 class AppDevice extends Component {
     constructor(props) {

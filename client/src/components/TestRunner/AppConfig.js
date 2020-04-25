@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
 class AppUpload extends Component {
@@ -7,13 +7,14 @@ class AppUpload extends Component {
         super(props);
         this.state = {
             upload: false,
-            testType: ''
+            testType: '',
+            inProgress: false
         }
         this.handleUploadFile = this.handleUploadFile.bind(this);
     }
 
     handleChange = (e) => {
-        if (e.target.value != 'BUILTIN_FUZZ' && e.target.value != 'BUILTIN_EXPLORER') {
+        if (e.target.value !== 'BUILTIN_FUZZ' && e.target.value !== 'BUILTIN_EXPLORER') {
             this.setState({ upload: true, testType: e.target.value });
             this.props.tabsHandler(false);
         } else {
@@ -26,15 +27,20 @@ class AppUpload extends Component {
         const data = new FormData();
         data.append('file', e.target.files[0]);
         data.append('testType', this.state.testType);
+        this.setState({ inProgress: true });
         // '/files' is your node.js route that triggers our middleware
         axios.post('/aws-testrunner/createUpload', data).then((res) => {
-            console.log(res); // do something with the response
-            this.props.tabsHandler(true);
+            if (res.status === 200) {
+                console.log(res);
+                this.props.tabsHandler(true);
+                this.setState({ inProgress: false });
+            }
         });
     }
 
     render() {
         let enableUpload = null;
+        let progressBar = '';
         if (this.state.upload) {
             enableUpload =
                 <Form>
@@ -49,7 +55,11 @@ class AppUpload extends Component {
             enableUpload =
                 <div><i>No tests? No problem. We'll fuzz test your app by sending random events to it with no scripts required.</i></div>
         }
-
+        if (this.state.inProgress) {
+            progressBar = <div>
+                <Spinner animation="border" /> Upload in progress
+            </div>
+        }
         return (
             <div>
                 <h2>Configure your test</h2>
@@ -75,6 +85,7 @@ class AppUpload extends Component {
                     </Form.Group>
                 </Form>
                 {enableUpload}
+                {progressBar}
             </div>
         )
     }
