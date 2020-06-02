@@ -1,1 +1,1 @@
-# cmpe281_awsdevicefarm_testrunner
+Full stack device farm test runner built with MERN stack while levarging cloud services such as AWS S3, Devicefarm and Lambda to integrate a fully automated on-demand mobile testing environment. Integrated with an open source bug tracking management system to promote rapid analysis of test outcomes in real time.
