@@ -32,7 +32,7 @@
     "nodemon": "^2.0.2",
     "path": "^0.12.7",
     "postman-request": "^2.88.1-postman.22",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "request": "^2.88.2",
     "save-as": "^0.1.8",
     "util": "^0.12.2",
