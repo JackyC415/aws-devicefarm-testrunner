@@ -19,7 +19,7 @@
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
     "easy-zip": "0.0.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.0",
     "file-saver": "^2.0.2",
     "fs": "0.0.1-security",
